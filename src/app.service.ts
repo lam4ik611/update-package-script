@@ -4,8 +4,8 @@ import { PackageDetailsDto, updatePackageDto } from './app.dto';
 import { writeFile, readFileSync } from 'fs';
 import { Octokit } from 'octokit';
 
-const errorHandler = (err: Error) => {
-  throw new Error(`File Error: ${err}`);
+const errorFileHandler = (err: any) => {
+  throw new Error(JSON.stringify(err));
 };
 
 @Injectable()
@@ -24,14 +24,16 @@ export class AppService {
           // TODO: handle the response
           console.log(`Pull Request is created! The response: ${res}`);
         } catch (err) {
-          errorHandler(err);
+          // TODO: handle the error
+          console.log('Pull Request errored: ', err.response.data.message);
         }
       })
-      .catch(errorHandler);
+      .catch(errorFileHandler);
 
-    return `now the package is: ${body.name}: "${body.version}"`;
+    return `Now ${body.name} version is "${body.version}"`;
   }
 
+  // TODO: it's better to move it into another module
   async createPullRequest({ owner, repo }): Promise<any> {
     const octokit = new Octokit({
       auth: process.env.AUTH_TOKEN,
@@ -41,12 +43,12 @@ export class AppService {
       owner,
       repo,
       title: 'Update version of a package in package.json',
-      body: 'Update version of a package in package.json',
       head: 'octocat:new-version',
       base: 'master',
     });
   }
 
+  // TODO: file functionality better to move to another module or make them like helpers
   private async updateFile({
     name,
     version,
@@ -66,7 +68,7 @@ export class AppService {
         if (err) {
           reject();
 
-          errorHandler(err);
+          errorFileHandler(err);
         }
 
         resolve();
@@ -78,6 +80,7 @@ export class AppService {
     return readFileSync(fileName, 'utf-8');
   }
 
+  // TODO: it's better to make it kind of helpers
   private updateJsonByKey = (data: any, key: string, value: string) => {
     return _.cloneDeepWith(data, (item) => {
       return item[key]

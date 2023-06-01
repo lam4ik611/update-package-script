@@ -20,8 +20,7 @@ $ npm run start:prod
 ## How to use
 
 - Install and run the repo as said above
-- To make request to update certain package, please use '/update-package' route
-- Thus, the request should be in POST method and should have such route - {host}/update-package
+- To make a request for updating certain package, please select POST method
 - Add JSON body as below
 ```
 {

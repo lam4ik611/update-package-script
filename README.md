@@ -45,29 +45,19 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## How to use
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+- Install and run the repo as said above
+- To make request to update certain package, please use '/update-package' route
+- Thus, the request should be in POST method and should have such route - {host}/update-package
+- Add JSON body as below
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+{
+    "name": "package_name",
+    "version": "desired_package_version",
+    "repoDetails": {
+        "owner": "owner_of_a_repo",
+        "repo": "certain_repo"
+    }
+}
+```

@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
+import { updatePackageDto } from './app.dto';
 
-@Controller()
+@Controller('/update-package')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post()
+  updatePackage(@Body() body: updatePackageDto): string {
+    return this.appService.updatePackage(body);
   }
 }
